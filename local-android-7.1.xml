@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<manifest>
+  <remote  name="guthub"
+           fetch="https://github.com/" />
+
+<!--Erikcas addings-->
+<project path="vendor/sony" name="DonkeyCoyote/proprietary_vendor_sony" groups="device" remote="guthub" revision="android-6.0" />
+</manifest>
