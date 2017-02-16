@@ -158,7 +158,7 @@ if [ $USE_CCACHE -eq 1 ]
 then
   # make sure ccache is in PATH
   export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-  export CCACHE_DIR=/home/erikcas/tmp/ccache
+  export CCACHE_DIR=/var/lib/jenkins/ccache
   mkdir -p $CCACHE_DIR
 fi
 
@@ -216,7 +216,7 @@ then
   CLEAN="true"
 fi
 
-export OUT_DIR=/home/erikcas/job/omnibuilds
+export OUT_DIR=/var/lib/jenkins/job/omnibuilds
 . build/envsetup.sh
 lunch $LUNCH
 check_result "lunch failed."
@@ -275,7 +275,7 @@ if [ $USE_CCACHE -eq 1 ]
 then
   if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "64.0" ]
   then
-    ccache -M 64G
+    ccache -M 24G
   fi
   echo "============================================"
   ccache -s
@@ -321,7 +321,7 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 # envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 # Don't add -jXX. mka adds it automatically...
-time make -j16 recoveryimage
+time make -j16 bootimage
 check_result "Build failed."
 
 if [ $USE_CCACHE -eq 1 ]
@@ -387,7 +387,10 @@ if [ -f $OUT/recovery.img ]
 then
   cp $OUT/recovery.img $WORKSPACE/archive
 fi
-
+if [ -f $OUT/boot.img ]
+then
+  cp $OUT/boot.img.img $WORKSPACE/archive
+fi
 # archive the build.prop as well
 ZIP=$(ls $WORKSPACE/archive/omni-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
@@ -429,5 +432,5 @@ then
 fi
 
 ##end with make clobber
-#echo "save ssd space. Making clobber"
-#time make clobber
+echo "save ssd space. Making clobber"
+time make clobber
