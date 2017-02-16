@@ -270,6 +270,25 @@ then
     check_result "basic XML lint failed."
   fi
 fi
+if [ ! -z "$GERRIT_TOPICS" ]
+then
+  IS_HTTP=$(echo $GERRIT_TOPICS | grep http)
+  if [ -z "$IS_HTTP" ]
+  then
+    python $WORKSPACE/omnirom/build/tools/repopick.py -t $GERRIT_TOPICS
+    #python $WORKSPACE/hudson/repopick.py -t $GERRIT_TOPICS
+    check_result "gerrit picks failed."
+  else
+    python $WORKSPACE/omnirom/build/tools/repopick.py -t $(curl $GERRIT_TOPICS)
+    #python $WORKSPACE/hudson/repopick.py -t $(curl $GERRIT_TOPICS)
+    check_result "gerrit picks failed."
+  fi
+  if [ ! -z "$GERRIT_XLATION_LINT" ]
+  then
+    python $WORKSPACE/hudson/xlationlint.py $GERRIT_TOPICS
+    check_result "basic XML lint failed."
+  fi
+fi
 
 if [ $USE_CCACHE -eq 1 ]
 then
