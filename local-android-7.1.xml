@@ -5,5 +5,5 @@
            fetch="https://github.com/" />
 
 <!--Erikcas addings-->
-<project path="vendor/sony" name="DonkeyCoyote/proprietary_vendor_sony" groups="device" remote="guthub" revision="android-6.0" />
+<project path="vendor/sony" name="DonkeyCoyote/proprietary_vendor_sony" groups="device" remote="guthub" revision="android-7.1" />
 </manifest>
