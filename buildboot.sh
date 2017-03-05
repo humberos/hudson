@@ -409,7 +409,7 @@ then
 fi
 if [ -f $OUT/boot.img ]
 then
-  cp $OUT/boot.img.img $WORKSPACE/archive
+  cp $OUT/boot.img $WORKSPACE/archive/$SONYDEVICE-boot.img
 fi
 # archive the build.prop as well
 ZIP=$(ls $WORKSPACE/archive/omni-*.zip)
