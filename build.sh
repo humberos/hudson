@@ -244,6 +244,12 @@ then
   export CM_EXPERIMENTAL=true
 fi
 
+export ref=$AOSP_BRANCH
+
+cd vendor/omni/utils
+sh aosp-merge.sh
+echo $ref
+cd ../../..
 
 if [ ! -z "$GERRIT_CHANGE_NUMBER" ]
 then
