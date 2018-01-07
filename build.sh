@@ -256,11 +256,11 @@ then
   IS_HTTP=$(echo $GERRIT_CHANGES | grep http)
   if [ -z "$IS_HTTP" ]
   then
-    python $WORKSPACE/omnirom/build/tools/repopick.py $GERRIT_CHANGES
+    python $WORKSPACE/omnirom/vendor/omni/build/tools/repopick.py $GERRIT_CHANGES
     #python $WORKSPACE/hudson/repopick.py $GERRIT_CHANGES
     check_result "gerrit picks failed."
   else
-    python $WORKSPACE/omnirom/build/tools/repopick.py $(curl $GERRIT_CHANGES)
+    python $WORKSPACE/omnirom/vendor/omni/build/tools/repopick.py $(curl $GERRIT_CHANGES)
     #python $WORKSPACE/hudson/repopick.py $(curl $GERRIT_CHANGES)
     check_result "gerrit picks failed."
   fi
@@ -275,11 +275,11 @@ then
   IS_HTTP=$(echo $GERRIT_TOPICS | grep http)
   if [ -z "$IS_HTTP" ]
   then
-    python $WORKSPACE/omnirom/build/tools/repopick.py -t $GERRIT_TOPICS
+    python $WORKSPACE/omnirom/vendor/omni/build/tools/repopick.py -t $GERRIT_TOPICS
     #python $WORKSPACE/hudson/repopick.py -t $GERRIT_TOPICS
     check_result "gerrit picks failed."
   else
-    python $WORKSPACE/omnirom/build/tools/repopick.py -t $(curl $GERRIT_TOPICS)
+    python $WORKSPACE/omnirom/vendor/omni/build/tools/repopick.py -t $(curl $GERRIT_TOPICS)
     #python $WORKSPACE/hudson/repopick.py -t $(curl $GERRIT_TOPICS)
     check_result "gerrit picks failed."
   fi
@@ -340,7 +340,7 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 # envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 # Don't add -jXX. mka adds it automatically...
-time mka bacon # recoveryzip recoveryimage checkapi
+time mka cookies # recoveryzip recoveryimage checkapi
 check_result "Build failed."
 
 if [ $USE_CCACHE -eq 1 ]
